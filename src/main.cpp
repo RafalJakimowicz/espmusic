@@ -9,14 +9,8 @@ int16_t *values;
 uint32_t len;
 int absmax = 1024;
 void read_data_stream(const uint8_t *data, uint32_t length) {
-    // Print audio data to serial
     len = length/2;
     values = (int16_t*) data;
-    for (int j=0; j<length/2; j++){
-      //Serial.print(values[j]);
-      //Serial.print(" ");
-    }
-    //Serial.print("\n");
 }
 
 void startBTRecieve(void * tParameters){
@@ -25,7 +19,7 @@ void startBTRecieve(void * tParameters){
   // output to callback and no I2S 
   a2dp_sink.set_stream_reader(read_data_stream, false);
   // connect to MyMusic with no automatic reconnect
-  a2dp_sink.start("ESP_32", false);  
+  a2dp_sink.start("ESP_32", false);
   for (;;){
     delay(1000);
   }
@@ -43,9 +37,9 @@ void loop() {
   for(int i = 0; i < len; i++){
     int data = valBuff[i] + 1024;
     if(data != 1024){
-      float percent = (float)data / 2048.0000;
+      float percent = (float)data / 65536.0000;
       int dutyCycle = (int)255.00*percent;
-      Serial.println(data);
+      Serial.println(dutyCycle);
       analogWrite(PWM_PIN, dutyCycle);
     }
     else{
