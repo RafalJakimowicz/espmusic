@@ -19,7 +19,7 @@ void startBTRecieve(void * tParameters){
   // output to callback and no I2S 
   a2dp_sink.set_stream_reader(read_data_stream, false);
   // connect to MyMusic with no automatic reconnect
-  a2dp_sink.start("ESP_32", false);
+  a2dp_sink.start("ESP_32", false);  
   for (;;){
     delay(1000);
   }
@@ -37,8 +37,10 @@ void loop() {
   for(int i = 0; i < len; i++){
     int data = valBuff[i] + 1024;
     if(data != 1024){
-      float percent = (float)data / 65536.0000;
+      float percent = (float)data / 2048.0000;
       int dutyCycle = (int)255.00*percent;
+      Serial.print(valBuff[i]);
+      Serial.print(",");
       Serial.println(dutyCycle);
       analogWrite(PWM_PIN, dutyCycle);
     }
