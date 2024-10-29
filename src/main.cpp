@@ -37,9 +37,9 @@ void CreatePWMFromData(void * tParameters){
     }
   }
   for(int i = 0; i < len; i++){
-    int data = valBuff[i] + 1024;
-    if(data != 1024){
-      float percent = (float)data / 2048.0000;
+    int data = valBuff[i] + absmax;
+    if(data != absmax){
+      float percent = (float)data / (float)(2*absmax);
       int dutyCycle = (int)255.00*percent;
       Serial.print(valBuff[i]);
       Serial.print(",");
@@ -56,8 +56,8 @@ void setup() {
   Serial.begin(115200);
   //Create recieving task on core 0
   mutex = xSemaphoreCreateMutex();
-  xTaskCreatePinnedToCore(startBTRecieve, "recieveData", 20000, NULL, 0, NULL, 0);
-  xTaskCreatePinnedToCore(CreatePWMFromData, "PWMData", 20000, NULL, 0, NULL, 0);
+  xTaskCreatePinnedToCore(startBTRecieve, "recieveData", 64000, NULL, 0, NULL, 0);
+  xTaskCreatePinnedToCore(CreatePWMFromData, "PWMData", 64000, NULL, 0, NULL, 1);
 }
 
 
