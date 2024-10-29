@@ -29,25 +29,26 @@ void startBTRecieve(void * tParameters){
 }
 
 void CreatePWMFromData(void * tParameters){
-  int16_t *valBuff;
-  while(true){
+  while(true)
+  {
+    int16_t *valBuff;
     if(xSemaphoreTake(mutex, portMAX_DELAY)){
       valBuff = values;
       xSemaphoreGive(mutex);
     }
-  }
-  for(int i = 0; i < len; i++){
-    int data = valBuff[i] + absmax;
-    if(data != absmax){
-      float percent = (float)data / (float)(2*absmax);
-      int dutyCycle = (int)255.00*percent;
-      Serial.print(valBuff[i]);
-      Serial.print(",");
-      Serial.println(dutyCycle);
-      analogWrite(PWM_PIN, dutyCycle);
-    }
-    else{
-      analogWrite(PWM_PIN, 0);
+    for(int i = 0; i < len; i++){
+      int data = valBuff[i] + absmax;
+      if(data != absmax){
+        double percent = (double)data / (double)(2*absmax);
+        int dutyCycle = (int)255.00*percent;
+        Serial.print(valBuff[i]);
+        Serial.print(",");
+        Serial.println(dutyCycle);
+        analogWrite(PWM_PIN, dutyCycle);
+      }
+      else{
+        analogWrite(PWM_PIN, 0);
+      }
     }
   }
 }
