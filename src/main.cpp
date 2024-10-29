@@ -57,7 +57,6 @@ void setup() {
   //Create recieving task on core 0
   mutex = xSemaphoreCreateMutex();
   xTaskCreatePinnedToCore(startBTRecieve, "recieveData", 24000, NULL, 0, &task0, 0);
-  //xTaskCreatePinnedToCore(CreatePWMFromData, "PWMData", 64000, NULL, 1, &task1, 1);
 }
 
 
